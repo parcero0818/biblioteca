@@ -3,6 +3,7 @@ package dominio;
 import java.util.Date;
 
 import dominio.excepcion.PrestamoException;
+import dominio.excepcion.PrestamoPalindromoException;
 import dominio.repositorio.RepositorioLibro;
 import dominio.repositorio.RepositorioPrestamo;
 
@@ -24,7 +25,7 @@ public class Bibliotecario {
 		if(esPrestado(libro.getIsbn())) {
 			throw new PrestamoException("El libro no se encuentra disponible");
 		}else if(isbnPalindromo(libro.getIsbn())){
-			throw new PrestamoException("Los libros palindromos solo se pueden utilizar en la biblioteca");
+			throw new PrestamoPalindromoException("Los libros palíndromos solo se pueden utilizar en la biblioteca");
 		}else{
 			Prestamo prestamo = new Prestamo(new Date(), libro, null, nombreUsuario);
 			repositorioPrestamo.agregar(prestamo);
@@ -44,7 +45,7 @@ public class Bibliotecario {
 	 * @param isbn
 	 * @return
 	 */
-	private boolean isbnPalindromo(String isbn) {
+	public boolean isbnPalindromo(String isbn) {
 		if (isbn == null) {
 			return false;
 		} else if (isbn.isEmpty() || isbn.length() == 1) {

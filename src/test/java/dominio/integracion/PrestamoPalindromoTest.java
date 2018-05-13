@@ -14,9 +14,10 @@ import dominio.excepcion.PrestamoPalindromoException;
 import dominio.repositorio.RepositorioLibro;
 import dominio.repositorio.RepositorioPrestamo;
 import persistencia.sistema.SistemaDePersistencia;
+import testdatabuilder.LibroPalindromoTestDataBuilder;
 import testdatabuilder.LibroTestDataBuilder;
 
-public class BibliotecarioTest {
+public class PrestamoPalindromoTest {
 
 	private static final String CRONICA_DE_UNA_MUERTA_ANUNCIADA = "Cronica de una muerta anunciada";
 
@@ -42,35 +43,16 @@ public class BibliotecarioTest {
 	}
 
 	@Test
-	public void prestarLibroTest() {
+	public void prestarLibroPalindromoTest() {
 
 		// arrange
 		String nombreUsuario = "Usuario1";
-		Libro libro = new LibroTestDataBuilder().conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
-		repositorioLibros.agregar(libro);
-		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
-
-		// act
-		blibliotecario.prestar(libro, nombreUsuario);
-
-		// assert
-		Assert.assertTrue(blibliotecario.esPrestado(libro.getIsbn()));
-		Assert.assertNotNull(repositorioPrestamo.obtenerLibroPrestadoPorIsbn(libro.getIsbn()));
-
-	}
-
-	@Test
-	public void prestarLibroNoDisponibleTest() {
-
-		// arrange
-		String nombreUsuario = "Usuario1";
-		Libro libro = new LibroTestDataBuilder().conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
+		Libro libro = new LibroPalindromoTestDataBuilder().conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
 
 		repositorioLibros.agregar(libro);
 
 		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
 
-		
 		try {
 			// act
 			blibliotecario.prestar(libro, nombreUsuario);
