@@ -1,5 +1,7 @@
 package dominio;
 
+import java.util.Date;
+
 import dominio.excepcion.PrestamoException;
 import dominio.repositorio.RepositorioLibro;
 import dominio.repositorio.RepositorioPrestamo;
@@ -7,6 +9,7 @@ import dominio.repositorio.RepositorioPrestamo;
 public class Bibliotecario {
 
 	public static final String EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE = "El libro no se encuentra disponible";
+	public static final String LIBRO_SOLO_PARA_USO_EN_BIBLIOTECA = "Los libros palíndromos solo se pueden utilizar en la biblioteca";
 
 	private RepositorioLibro repositorioLibro;
 	private RepositorioPrestamo repositorioPrestamo;
@@ -17,19 +20,15 @@ public class Bibliotecario {
 
 	}
 
-	public String prestar(String isbn) {
-		if(esPrestado(isbn)) {
+	public void prestar(Libro libro, String nombreUsuario) {
+		if(esPrestado(libro.getIsbn())) {
 			throw new PrestamoException("El libro no se encuentra disponible");
-		}else if(isbnPalindromo(isbn)){
-			return "Los libros palindromos solo se pueden utilizar en la biblioteca";
+		}else if(isbnPalindromo(libro.getIsbn())){
+			throw new PrestamoException("Los libros palindromos solo se pueden utilizar en la biblioteca");
 		}else{
-			Libro libro = new Libro(isbn, "", 0);
-			Prestamo prestamo = new Prestamo(null, libro, null, "usuario1");
+			Prestamo prestamo = new Prestamo(new Date(), libro, null, nombreUsuario);
 			repositorioPrestamo.agregar(prestamo);
 		}
-		esPrestado(isbn);
-
-		return "true";
 	}
 
 	public boolean esPrestado(String isbn) {

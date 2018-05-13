@@ -18,23 +18,22 @@ import testdatabuilder.LibroTestDataBuilder;
 public class BibliotecarioTest {
 
 	private static final String CRONICA_DE_UNA_MUERTA_ANUNCIADA = "Cronica de una muerta anunciada";
-	
+
 	private SistemaDePersistencia sistemaPersistencia;
-	
+
 	private RepositorioLibro repositorioLibros;
 	private RepositorioPrestamo repositorioPrestamo;
 
 	@Before
 	public void setUp() {
-		
+
 		sistemaPersistencia = new SistemaDePersistencia();
-		
+
 		repositorioLibros = sistemaPersistencia.obtenerRepositorioLibros();
 		repositorioPrestamo = sistemaPersistencia.obtenerRepositorioPrestamos();
-		
+
 		sistemaPersistencia.iniciar();
 	}
-	
 
 	@After
 	public void tearDown() {
@@ -45,12 +44,13 @@ public class BibliotecarioTest {
 	public void prestarLibroTest() {
 
 		// arrange
+		String nombreUsuario = "Usuario1";
 		Libro libro = new LibroTestDataBuilder().conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
 		repositorioLibros.agregar(libro);
 		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
 
 		// act
-		blibliotecario.prestar(libro.getIsbn());
+		blibliotecario.prestar(libro, nombreUsuario);
 
 		// assert
 		Assert.assertTrue(blibliotecario.esPrestado(libro.getIsbn()));
@@ -62,22 +62,27 @@ public class BibliotecarioTest {
 	public void prestarLibroNoDisponibleTest() {
 
 		// arrange
+		String nombreUsuario = "Usuario1";
 		Libro libro = new LibroTestDataBuilder().conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
-		
+
 		repositorioLibros.agregar(libro);
-		
+
 		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
 
 		// act
-		blibliotecario.prestar(libro.getIsbn());
 		try {
-			
-			blibliotecario.prestar(libro.getIsbn());
-			fail();
-			
-		} catch (PrestamoException e) {
-			// assert
-			Assert.assertEquals(Bibliotecario.EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE, e.getMessage());
+			blibliotecario.prestar(libro, nombreUsuario);
+
+			try {
+				blibliotecario.prestar(libro, nombreUsuario);
+				fail();
+			} catch (PrestamoException e) {
+				// assert
+				Assert.assertEquals(Bibliotecario.EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE, e.getMessage());
+			}
+		} catch (PrestamoException ex) {
+			Assert.assertEquals(Bibliotecario.LIBRO_SOLO_PARA_USO_EN_BIBLIOTECA, ex.getMessage());
 		}
+
 	}
 }
