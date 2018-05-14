@@ -9,14 +9,14 @@ import dominio.Bibliotecario;
 import dominio.Libro;
 import dominio.repositorio.RepositorioLibro;
 import dominio.repositorio.RepositorioPrestamo;
-import testdatabuilder.LibroCalcularFecEntregaTestDataBuilder;
+import testdatabuilder.LibroConFecEntregaTestDataBuilder;
 
 public class calcularFechaEntregaTest {
 
 	@Test
 	public void esPalindromoTest() {
 		// arrange
-		LibroCalcularFecEntregaTestDataBuilder libIsbnMayor30DataBuilder = new LibroCalcularFecEntregaTestDataBuilder();
+		LibroConFecEntregaTestDataBuilder libIsbnMayor30DataBuilder = new LibroConFecEntregaTestDataBuilder();
 		
 		Libro libro = libIsbnMayor30DataBuilder.build(); 
 		

@@ -13,7 +13,7 @@ import dominio.excepcion.PrestamoPalindromoException;
 import dominio.repositorio.RepositorioLibro;
 import dominio.repositorio.RepositorioPrestamo;
 import persistencia.sistema.SistemaDePersistencia;
-import testdatabuilder.LibroCalcularFecEntregaTestDataBuilder;
+import testdatabuilder.LibroConFecEntregaTestDataBuilder;
 
 public class PrestamoConFechaMaxEntregaTest {
 
@@ -45,7 +45,7 @@ public class PrestamoConFechaMaxEntregaTest {
 
 		// arrange
 		String nombreUsuario = "Usuario1";
-		Libro libro = new LibroCalcularFecEntregaTestDataBuilder().conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
+		Libro libro = new LibroConFecEntregaTestDataBuilder().conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
 
 		repositorioLibros.agregar(libro);
 

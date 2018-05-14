@@ -2,7 +2,7 @@ package testdatabuilder;
 
 import dominio.Libro;
 
-public class LibroCalcularFecEntregaTestDataBuilder {
+public class LibroConFecEntregaTestDataBuilder {
 
 	private static final int ANIO = 2010;
 	private static final String TITULO = "Cien años de soledad";
@@ -12,23 +12,23 @@ public class LibroCalcularFecEntregaTestDataBuilder {
 	private String titulo;
 	private int anio;
 
-	public LibroCalcularFecEntregaTestDataBuilder() {
+	public LibroConFecEntregaTestDataBuilder() {
 		this.isbn = ISBN;
 		this.titulo = TITULO;
 		this.anio = ANIO;
 	}
 
-	public LibroCalcularFecEntregaTestDataBuilder conTitulo(String titulo) {
+	public LibroConFecEntregaTestDataBuilder conTitulo(String titulo) {
 		this.titulo = titulo;
 		return this;
 	}
 
-	public LibroCalcularFecEntregaTestDataBuilder conIsbn(String isbn) {
+	public LibroConFecEntregaTestDataBuilder conIsbn(String isbn) {
 		this.isbn = isbn;
 		return this;
 	}
 
-	public LibroCalcularFecEntregaTestDataBuilder conAnio(int anio) {
+	public LibroConFecEntregaTestDataBuilder conAnio(int anio) {
 		this.anio = anio;
 		return this;
 	}
