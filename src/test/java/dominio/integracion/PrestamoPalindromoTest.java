@@ -59,8 +59,7 @@ public class PrestamoPalindromoTest {
 
 			blibliotecario.prestar(libro, nombreUsuario);
 			fail();
-		} catch (PrestamoException e) {
-			Assert.assertEquals(Bibliotecario.EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE, e.getMessage());
+		
 		} catch (PrestamoPalindromoException e) {
 			Assert.assertEquals(Bibliotecario.LIBRO_SOLO_PARA_USO_EN_BIBLIOTECA, e.getMessage());
 		}

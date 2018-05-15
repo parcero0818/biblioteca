@@ -25,11 +25,8 @@ public class LibroPalindromoTest {
 		RepositorioLibro repositorioLibro = mock(RepositorioLibro.class);
 		
 		when(repositorioPrestamo.obtenerLibroPrestadoPorIsbn(libro.getIsbn())).thenReturn(libro);
-		
-		Bibliotecario bibliotecario = new Bibliotecario(repositorioLibro, repositorioPrestamo);
-		
 		// act 
-		boolean esPalindromo =  bibliotecario.isbnPalindromo(libro.getIsbn());
+		boolean esPalindromo =  libro.isbnPalindromo(libro.getIsbn());
 		
 		//assert
 		assertTrue(esPalindromo);

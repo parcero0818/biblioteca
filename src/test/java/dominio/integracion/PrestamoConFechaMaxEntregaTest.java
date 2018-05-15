@@ -1,5 +1,6 @@
 package dominio.integracion;
 
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -54,11 +55,10 @@ public class PrestamoConFechaMaxEntregaTest {
 		try {
 			// act
 			blibliotecario.prestar(libro, nombreUsuario);
-
-		} catch (PrestamoException e) {
-			Assert.assertEquals(Bibliotecario.EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE, e.getMessage());
-		} catch (PrestamoPalindromoException e) {
-			Assert.assertEquals(Bibliotecario.LIBRO_SOLO_PARA_USO_EN_BIBLIOTECA, e.getMessage());
+		} catch (Exception ex) {
+			fail();
 		}
+
+		Assert.assertTrue(blibliotecario.esPrestado(libro.getIsbn()));
 	}
 }
