@@ -1,5 +1,6 @@
 package dominio;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import dominio.excepcion.PrestamoException;
@@ -23,6 +24,7 @@ public class Bibliotecario {
 
 	/***
 	 * Metodo que permite realizar el prestamo de un libro
+	 * 
 	 * @param libro
 	 * @param nombreUsuario
 	 */
@@ -32,16 +34,20 @@ public class Bibliotecario {
 		} else if (isbnPalindromo(libro.getIsbn())) {
 			throw new PrestamoPalindromoException("Los libros palíndromos solo se pueden utilizar en la biblioteca");
 		} else {
-			if(sumaDigitosIsbn(libro.getIsbn(), 0) > 30) {
-				System.out.println("suman mas de 30");
-			}else {
+			if (sumaDigitosIsbn(libro.getIsbn(), 0) > 30) {
+				Date fechaEntrega = fechaEntregaMax();
+				Prestamo prestamo = new Prestamo(new Date(), libro, fechaEntrega, nombreUsuario);
+				repositorioPrestamo.agregar(prestamo);
+			} else {
 				Prestamo prestamo = new Prestamo(new Date(), libro, null, nombreUsuario);
 				repositorioPrestamo.agregar(prestamo);
 			}
 		}
 	}
+
 	/***
 	 * Metodo que permite saber si un libro ya se encuentra prestado
+	 * 
 	 * @param isbn
 	 * @return
 	 */
@@ -73,6 +79,7 @@ public class Bibliotecario {
 	/***
 	 * Metodo recursivo que permite sumar los digitos del isbn para determinar si al
 	 * libro que se presta se de debe calcular la fecha maxima de entrega
+	 * 
 	 * @author Edward
 	 * @param isbn
 	 * @param suma
@@ -92,6 +99,40 @@ public class Bibliotecario {
 			suma += Integer.parseInt(String.valueOf(isbn.charAt(len)));
 		}
 		return sumaDigitosIsbn(isbn.substring(0, len), suma);
+	}
+
+	/***
+	 * Metodo para calcalar la fecha maxima de entrega cuando la sumatoria de los
+	 * numeros del isbn del libro que se presta suman mas de 30
+	 * 
+	 * @author Edward
+	 * @return
+	 */
+	private Date fechaEntregaMax() {
+		Calendar calendar = Calendar.getInstance();
+		int dias = 15;
+		int aux = 1;
+		while (aux < dias) {
+			if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+				calendar.add(Calendar.DAY_OF_YEAR, 2);
+			} else {
+				calendar.add(Calendar.DAY_OF_YEAR, 1);
+			}
+			aux++;
+		}
+		return calendar.getTime();
+	}
+
+	/***
+	 * @param isbn
+	 * @return
+	 */
+	public boolean calcularFecha(String isbn) {
+		if (sumaDigitosIsbn(isbn, 0) > 30) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
